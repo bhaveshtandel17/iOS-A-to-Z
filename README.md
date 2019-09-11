@@ -8,8 +8,9 @@ study purpose
 * [Setup different iOS Environment](https://github.com/bhaveshtandel17/BuildConfigurationsDemo)
 * [What is Run Script](https://github.com/bhaveshtandel17/RunScriptDemo)
 
-### Design Pattern
+### App Architecture & Design Pattern
 * [Coordinator](https://github.com/bhaveshtandel17/iOS-Coordinator)
+* [Advanced App Architecture](https://github.com/bhaveshtandel17/iOS-Coordinator)
 
 ### 3D Touch
 * [What is 3D Touch?](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/index.html#//apple_ref/doc/uid/TP40016543-CH1-SW1)
