@@ -10,7 +10,7 @@ study purpose
 
 ### App Architecture & Design Pattern
 * [Coordinator](https://github.com/bhaveshtandel17/iOS-Coordinator)
-* [Advanced App Architecture](https://github.com/bhaveshtandel17/iOS-Coordinator)
+* [Advanced App Architecture](https://github.com/bhaveshtandel17/Advanced-iOS-App-Architecture)
 
 ### 3D Touch
 * [What is 3D Touch?](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/index.html#//apple_ref/doc/uid/TP40016543-CH1-SW1)
