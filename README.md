@@ -10,6 +10,7 @@ study purpose
 
 ### App Architecture & Design Pattern
 * [Coordinator](https://github.com/bhaveshtandel17/iOS-Coordinator)
+* [MVVM](https://github.com/bhaveshtandel17/MVVM-iOS)
 * [Advanced App Architecture](https://github.com/bhaveshtandel17/Advanced-iOS-App-Architecture)
 
 ### 3D Touch
