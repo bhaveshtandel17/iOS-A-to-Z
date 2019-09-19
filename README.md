@@ -11,7 +11,6 @@ study purpose
 ### [App Architecture](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Architecture)
 
 ### App Architecture & Design Pattern
-* [MVVM](https://github.com/bhaveshtandel17/MVVM-iOS)
 * [Advanced App Architecture](https://github.com/bhaveshtandel17/Advanced-iOS-App-Architecture)
 
 ### 3D Touch
