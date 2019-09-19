@@ -128,22 +128,19 @@ In imperative programming, you change state at will. In functional programming, 
 
 **Declarative code** lets you define pieces of behavior. RxSwift will run these behaviors any time there’s a relevant event and provide an immutable, isolated piece of data to work with.
 
+***RxSwift foundation***
 
+Reactive programming has been in the picture for more than 20 years now, but it did not really start to gain momentum until the introduction of reactive extensions in 2009. **Reactive extensions** or **Rx**
+
+**RxSwift** finds the sweet spot between traditionally imperative Cocoa code and purist functional code. It allows you to react to events by using immutable code definitions to process asynchronous pieces of input in a deterministic, composable way.
+
+> And
 
 ***RxSwift*** is a library for composing asynchronous and event-based code by using
 observable sequences and functional style operators, allowing for parameterized
 execution via schedulers.
 
-> In simple word
+> “The three building blocks of Rx code are **observables**, **operators** and **schedulers**.
 
-RxSwift; Simplifies developing asynchronous programs by allowing your code to react to new data and process it in a sequential, isolated manner.
 
-Although, Apple provides lots of APIs in the iOS SDK that help you write asynchronous code. Like;
-* Grand Centeral Dispatch
-* Operation Queue
-* NotificationCenter
-* Delegate pattern
-* Closures
-
-The issue is that complex asynchronous code becomes very difficult to write in part because of the variety of APIs that Apple’s SDK offers;. the core issues with writing asynchronous code are: a) the order in which pieces of work are performed and b) shared mutable data. Luckily, these are some of RxSwift’s strong suits!
 
