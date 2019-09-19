@@ -1,8 +1,7 @@
 # iOS-A-to-Z
 study purpose
 
-### CI & CD
-* [What is Jenkins](https://github.com/bhaveshtandel17/GettingStartedJenkins)
+
 
 ### Project Setup
 * [Setup different iOS Environment](https://github.com/bhaveshtandel17/BuildConfigurationsDemo)
@@ -11,6 +10,8 @@ study purpose
 ### [App Architecture](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Architecture)
 
 ### [Functional Reactive Programming - FRP](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Functional_reactive_programming)
+
+### [CI & CD](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/CI_%26_CD)
 
 ### 3D Touch
 * [What is 3D Touch?](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/index.html#//apple_ref/doc/uid/TP40016543-CH1-SW1)
