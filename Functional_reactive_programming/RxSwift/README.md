@@ -51,7 +51,7 @@ Reactive programming is the practice of programming with *asynchronous data stre
 
 An event stream can be defined as a sequence of events happening over time.
 
-<img src="https://github.com/bhaveshtandel17/RxSwift/blob/master/Files/eventStreams.png" width="400" height="200" />
+<img src="./Files/eventStreams.png" width="400" height="200" />
 
 As you can see, we have expressed time on the arrow aligned from left to right, moving forward to the right, and events happen over time. We can add an event listener to the whole sequence and whenever an event happens, WE CAN REACT TO IT.
 
