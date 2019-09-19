@@ -8,8 +8,9 @@ study purpose
 * [Setup different iOS Environment](https://github.com/bhaveshtandel17/BuildConfigurationsDemo)
 * [What is Run Script](https://github.com/bhaveshtandel17/RunScriptDemo)
 
+### [App Architecture](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Architecture)
+
 ### App Architecture & Design Pattern
-* [Coordinator](https://github.com/bhaveshtandel17/iOS-Coordinator)
 * [MVVM](https://github.com/bhaveshtandel17/MVVM-iOS)
 * [Advanced App Architecture](https://github.com/bhaveshtandel17/Advanced-iOS-App-Architecture)
 
