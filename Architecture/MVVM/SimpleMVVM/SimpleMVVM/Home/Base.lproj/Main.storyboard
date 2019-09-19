@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9SD-Q9-TjP">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="1q4-Dk-dr4">
+            <objects>
+                <viewController id="tn9-zN-1Tc" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Nl-iW-QVl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ZJp-Gx-Jtf"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Dhr-PQ-rjj"/>
+                    <connections>
+                        <segue destination="hWF-8J-UTc" kind="show" id="ehc-Kq-WnG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jih-Jv-ERT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1121.7391304347827" y="330.80357142857139"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="mB5-sT-T0H">
+            <objects>
+                <tabBarController id="x5y-5p-8sC" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ouq-qM-ZyY"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6N3-7O-aXq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="hWF-8J-UTc" kind="relationship" relationship="viewControllers" id="nNi-lf-A6W"/>
+                        <segue destination="SFU-AF-eoj" kind="relationship" relationship="viewControllers" id="irw-Hf-3pu"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NPe-WG-uU0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-675" y="-85"/>
+        </scene>
+        <!--Headlines-->
+        <scene sceneID="5CI-9D-hic">
+            <objects>
+                <tableViewController id="hWF-8J-UTc" customClass="HeadlineTableViewController" customModule="SimpleMVVM" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="yaC-FL-nZ1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="149" id="554-Ov-kjz">
+                                <rect key="frame" x="0.0" y="28" width="414" height="149"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="554-Ov-kjz" id="yCx-Bw-JzW">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="148.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="hWF-8J-UTc" id="AQ3-CE-Dfs"/>
+                            <outlet property="delegate" destination="hWF-8J-UTc" id="m4o-iw-37l"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Headlines" id="gim-py-XYH"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LXH-MB-uOe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="202.89855072463769" y="-327.45535714285711"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eym-b3-kk7">
+            <objects>
+                <navigationController id="9SD-Q9-TjP" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mGA-OC-IcU">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="x5y-5p-8sC" kind="relationship" relationship="rootViewController" id="RIp-LS-neV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HNs-EB-IgR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1459" y="-85"/>
+        </scene>
+        <!--World-->
+        <scene sceneID="xd7-nl-FWd">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SFU-AF-eoj" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="World" id="PqS-eI-ftr"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AuK-7Y-b9o">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="tn9-zN-1Tc" kind="relationship" relationship="rootViewController" id="2xJ-WU-zcG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cv8-4r-exG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="211.59420289855075" y="330.80357142857139"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ehc-Kq-WnG"/>
+    </inferredMetricsTieBreakers>
+</document>
