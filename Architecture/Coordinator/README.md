@@ -52,29 +52,29 @@ and then it’s sending a precise message to its parent about what to do. It’s
 
 > In real MVC, Model, View and Controller all three elements connecting with each other; especially Model and View
 
-![picture alt](https://github.com/bhaveshtandel17/iOS-Coordinator/blob/master/images/MVC.jpg "")
+![picture alt](./images/MVC.jpg "")
 
 > But in MVC iOS version, Controller mediates MODEL-VIEW; That leads "Massive Viewcontroller"
 
-![picture alt](https://github.com/bhaveshtandel17/iOS-Coordinator/blob/master/images/mvc-iOS.jpg "")
+![picture alt](./images/mvc-iOS.jpg "")
 
 **What is a coordinator?**
 
 > A coordinator is an object that bosses one or more view controllers around. Taking all of the driving logic out of your view controllers, and moving that stuff one layer up is gonna make your life a lot more awesome.
 
-![picture alt](https://github.com/bhaveshtandel17/iOS-Coordinator/blob/master/images/CoordinatorLayer.jpg "")
+![picture alt](./images/CoordinatorLayer.jpg "")
 
 > Which responsiblities do coordinators take over from the view controller? 
 Primarily, navigation and model mutation. (By model mutation I mean saving the user’s changes to the database, or making a `PUT` or `POST` request to an API, 
 anything that can destructively modify the user’s data.)
 
-![picture alt](https://github.com/bhaveshtandel17/iOS-Coordinator/blob/master/images/coordinatorRes.jpg "")
+![picture alt](./images/coordinatorRes.jpg "")
 
 > It can be presented, it can fetch data, transform it for presentation, display it, but it crucially can’t alter data
 
 > We know now that any time we present a view controller, it won’t take things into its own hands. Whenever it needs to let us know about an event or user input, it uses a delegate method. (closure formate: See in example)
 
-![picture alt](https://github.com/bhaveshtandel17/iOS-Coordinator/blob/master/images/ViewcontrollerWeak.jpg "")
+![picture alt](./images/ViewcontrollerWeak.jpg "")
 
 > coordinator can create and configure view controllers, or it can spawn new child coordinators to perform subtasks.
 
