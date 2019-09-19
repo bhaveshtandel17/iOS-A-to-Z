@@ -50,7 +50,7 @@ Reactive programming is the practice of programming with *asynchronous data stre
 ***Functional reactive programming*** is the combination of *functional* and *reactive* paradigms, or to be more concise, it is reacting to data streams using the functional paradigm.
 
 ***Basic building blocks of FRP***
-* **Event streams**:
+* **Event streams / sequence**:
 
 An event stream can be defined as a sequence of events happening over time.
 
@@ -137,10 +137,12 @@ Reactive programming has been in the picture for more than 20 years now, but it 
 > And
 
 ***RxSwift*** is a library for composing asynchronous and event-based code by using
-observable sequences and functional style operators, allowing for parameterized
-execution via schedulers.
+*observable sequences* and functional style *operators*, allowing for parameterized
+execution via *schedulers*. (Note: Rx, Everything is a Sequence)
 
 > “The three building blocks of Rx code are **observables**, **operators** and **schedulers**.
 
+***Observable***
 
+The Observable<T> class provides the foundation of Rx code: the ability to asynchronously produce a sequence of events.
 
