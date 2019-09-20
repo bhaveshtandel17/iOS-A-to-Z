@@ -166,4 +166,75 @@ A sequence can also terminate normally and in doing so it will emit a `completed
 
 If at any point you want to stop observing a sequence, you can cancel the subscription by calling `dispose()` on it; this is like removing an observer in KVO or the notification center API, or you can also just add subscriptions to an instance of `DisposeBag`, which will take care of properly canceling subscriptions on `deinit()` for you.
 
+two different kinds of observable sequences: finite and infinite.
+
+**Finite**: Some observable sequences emit zero, one or more values, and, at a later point, either terminate successfully or terminate with an error.
+
+**Infinite**: there are other sequences which are simply infinite. Often, UI events are such infinite observable sequences.
+
+***Marble diagrams***
+
+http://rxmarbles.com/
+
+***Subject***
+
+Subject is a special type in RxSwift that can act as both of these:
+
+*   An `Observable` sequence, which means it can be subscribed to
+*   An `Observer` that enables adding new elements onto a subject that will then be emitted to the subject subscribers
+
+There are four subject types in RxSwift:
+1.  PublishSubject
+2.  BehaviorSubject
+3.  ReplaySubject
+4.  Variable
+
+***Operators***
+
+Operators mostly take in asynchronous input and only produce output without causing side effects,
+
+ObservableType and the implementation of the Observable class include plenty of methods that abstract discrete pieces of asynchronous work, which can be composed together to implement more complex logic.
+
+```
+UIDevice.rx.orientation
+  .filter { value in
+    return value != .landscape
+  }
+  .map { _ in
+    return "Portrait is the best!"
+  }
+  .subscribe(onNext: { string in
+    showAlert(text: string)
+  })
+```
+
+First, `filter` will only let through values that are not `.landscape`. If the device is in landscape mode, the subscription code will not get executed because `filter` will suppress these events.
+
+In case of `.portrait` values, the map operator will take the Orientation type input and convert it to a String output — the text "Portrait is the best!"
+
+Finally, with `subscribe`, you subscribe for the resulting next event, this time carrying a String value, and you call a method to display an alert with that text onscreen.
+
+The operators are also highly **composable**(Not change state) — they always take in data as input and output their result, so you can easily chain them in many different ways achieving so much more than what a single operator can do on its own
+
+***Schedulers***
+
+Schedulers are an abstraction that let you specify distinct queues on which to perform work. It is always a good idea to move all the intensive work off the main thread to keep it as responsive as possible for users, and schedulers make it easy to do this. They can be Serial or Concurrent. You will use a serial scheduler if you want to ensure that work is carried out on that queue in the order it was added to the queue, otherwise you will typically just use a concurrent queue.
+
+There are built-in scheduler types that work with Grand Central Dispatch (GCD) queues and NSOperationQueues. These are as listed:
+
+*   `SerialDispatchQueueScheduler`, which will dispatch work on a specified `serial dispatch` queue
+*   `ConcurrentDispatchQueueScheduler`, which will dispatch work on a `concurrent dispatch` queue
+*   `OperationQueueSchedule`r, which will perform the work on a specified `NSOperations` queue
+
+You can also create your own custom schedulers by conforming to the `ImmediateScheduler` protocol.
+
+***App architecture***
+
+RxSwift and MVVM definitely do play nicely together. The reason MVVM and RxSwift go great together is that a ViewModel allows you to expose Observable<T> properties, which you can bind directly to UIKit controls in your View controller's glue code. This makes binding model data to the UI very simple to represent and to code:
+
+
+<img src="./Files/mVVM_Rx.png" width="600" height="200" />
+
+
+
 
