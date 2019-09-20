@@ -3,6 +3,8 @@
 ***Study Source***
 * [Reactive Programming Swift - Navdeep Singh](https://github.com/bhaveshtandel17/iOS-A-to-Z/blob/master/Functional_reactive_programming/RxSwift/Files/reactive-programming-swift-4.epub)
 
+* [RxSwift Docs](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md)
+
 ***FRP Fundamentals, Terminology***
 
 Two different types of programming styles, the imperative and declarative style of doing things in code, and then establish the sweet spot between the two styles where RxSwift sits to take advantage of both programming paradigms.
@@ -132,17 +134,36 @@ In imperative programming, you change state at will. In functional programming, 
 
 Reactive programming has been in the picture for more than 20 years now, but it did not really start to gain momentum until the introduction of reactive extensions in 2009. **Reactive extensions** or **Rx**
 
-**RxSwift** finds the sweet spot between traditionally imperative Cocoa code and purist functional code. It allows you to react to events by using immutable code definitions to process asynchronous pieces of input in a deterministic, composable way.
+**RxSwift** finds the sweet spot between traditionally imperative Cocoa code and purist functional code.
 
-> And
+Rx also implements the iterator pattern, which is how sequences can be traversed. ([sequence](https://developer.apple.com/documentation/swift/sequence) and [iteratorprotocol](https://developer.apple.com/documentation/swift/iteratorprotocol) in swift) (Note: Rx, Everything is a Sequence)
+
+> Definition Of RXswift
 
 ***RxSwift*** is a library for composing asynchronous and event-based code by using
-*observable sequences* and functional style *operators*, allowing for parameterized
-execution via *schedulers*. (Note: Rx, Everything is a Sequence)
+**observable sequences** and functional style **operators**, allowing for parameterized
+execution via **schedulers**. 
 
 > “The three building blocks of Rx code are **observables**, **operators** and **schedulers**.
 
 ***Observable***
 
 The Observable<T> class provides the foundation of Rx code: the ability to asynchronously produce a sequence of events.
+    
+Every `Observable` sequence is just a sequence. The key advantage for an `Observable` vs Swift's `Sequence` is that it can also receive elements asynchronously. 
+
+*   `Observable(ObservableType)` is equivalent to `Sequence`
+*   `ObservableType.subscribe` method is equivalent to `Sequence.makeIterator` method.
+*   `Observer (callback)` needs to be passed to `ObservableType.subscribe` method to receive sequence elements instead of calling next()(in `Sequence`) on the returned iterator.
+
+***It is important to understand the lifecycle of an Observable sequence.***
+
+An observable sequence can emit things known as `events`. It can emit zero or more events; when a value is added to or put onto a sequence, it will send a `next` event containing that value to its observers. This is known as emitting.
+
+If an error is encountered, A sequence can emit an error event containing an `error` type.
+
+A sequence can also terminate normally and in doing so it will emit a `completed` event.
+
+If at any point you want to stop observing a sequence, you can cancel the subscription by calling `dispose()` on it; this is like removing an observer in KVO or the notification center API, or you can also just add subscriptions to an instance of `DisposeBag`, which will take care of properly canceling subscriptions on `deinit()` for you.
+
 
