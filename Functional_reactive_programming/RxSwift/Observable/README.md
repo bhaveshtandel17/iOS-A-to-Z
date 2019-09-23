@@ -205,4 +205,71 @@ Output:
 2
 ```
 
+***Creating observable factories i.e. `deferred` operator***
 
+it’s possible to create observable factories that vend a new observable to each subscriber. `deferred`'s observableFactory clouser parameter `() throws -> Observable<Int>` returns Observable. 
+
+```
+let disposeBag = DisposeBag()
+var flag = true
+let factory: Observable<Int> = Observable.deferred {
+    // You can add logic and create Observable
+    if flag {
+        return Observable.of(1, 2, 3)
+    } else {
+        return Observable.of(10, 20, 30)
+    }
+}
+        
+factory.subscribe(onNext: {
+    print($0)
+}).disposed(by: disposeBag)
+
+flag.toggle()
+factory.subscribe(onNext: {
+    print($0)
+}).disposed(by: disposeBag)
+
+flag.toggle()
+factory.subscribe(onNext: {
+    print($0)
+}).disposed(by: disposeBag)
+
+
+Output: 
+1
+2
+3
+10
+20
+30
+1
+2
+3
+```
+
+***Traits***
+
+https://github.com/ReactiveX/RxSwift/blob/master/Documentation/Traits.md
+
+Traits are observables with a narrower set of behaviors than regular observables. (Their use is optional; you can use a regular observable anywhere you might use a trait instead.)
+
+Their purpose is to provide a way to more clearly convey your intent to readers of your code or consumers of your API. The context implied by using a trait can help make your code more intuitive.
+
+There are three kinds of traits in RxSwift: `Single`, `Maybe` and `Completable`.
+
+**Singles** will emit either a `.success(value)` or `.error` event. 
+
+`.success(value)` is actually a combination of the `.next` and `.completed` events.
+
+This is useful for one-time processes that will either succeed and yield a value or fail, such as downloading data or loading it from disk.
+
+A **Completable** will only emit a `.completed` or `.error` event. It doesn't emit any values.
+
+You could use a completable when you only care that an operation completed successfully or failed, such as a file write.
+
+Finally, **Maybe** is a mashup of a Single and Completable.
+
+It can either emit a `.success(value)`, `.completed` or `.error`. 
+
+If you need to implement an operation that could either succeed or fail, and optionally return a value on success, then use Maybe.
