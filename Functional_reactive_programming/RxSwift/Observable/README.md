@@ -273,3 +273,64 @@ Finally, **Maybe** is a mashup of a Single and Completable.
 It can either emit a `.success(value)`, `.completed` or `.error`. 
 
 If you need to implement an operation that could either succeed or fail, and optionally return a value on success, then use Maybe.
+
+Example with Rehular Observerable
+```
+Observable<String>.create({ observer in
+    let disposable = Disposables.create()
+    guard let path = Bundle.main.path(forResource: name, ofType: "strings") else {
+        observer.on(.error(FileReadError.fileNotFound))
+        return disposable
+    }
+            
+    guard let data = FileManager.default.contents(atPath: path) else {
+        observer.on(.error(FileReadError.unreadable))
+        return disposable
+    }
+    
+    guard let contents = String(data: data, encoding: .utf8) else {
+        observer.on(.error(FileReadError.encodingFailed))
+        return disposable
+    }
+    observer.on(.next(contents))
+    return disposable   
+}).subscribe{
+    switch $0 {
+    case .success(let string):
+        print(string)
+    case .error(let error):
+        print(error)
+    }
+}.disposed(by: disposeBag)
+```
+
+Example with Single Traits
+
+```
+Single.create(subscribe: { single in
+    let disposable = Disposables.create()
+    guard let path = Bundle.main.path(forResource: name, ofType: "strings") else {
+        single(.error(FileReadError.fileNotFound))
+        return disposable
+    }
+
+    guard let data = FileManager.default.contents(atPath: path) else {
+        single(.error(FileReadError.unreadable))
+        return disposable
+    }
+
+    guard let contents = String(data: data, encoding: .utf8) else {
+        single(.error(FileReadError.encodingFailed))
+        return disposable
+    }
+    single(.success(contents))
+    return disposable
+}).subscribe{
+    switch $0 {
+    case .success(let string):
+        print(string)
+    case .error(let error):
+        print(error)
+    }
+}.disposed(by: disposeBag)
+```
