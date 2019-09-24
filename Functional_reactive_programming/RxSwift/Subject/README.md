@@ -104,4 +104,188 @@ subscription 2) completed
 subscription 3) completed
 ```
 
+In the following marble diagram, the top line is the publish subject and the second and third lines are subscribers. The upward-pointing arrows indicate subscriptions, and the downward-pointing arrows represent emitted events.
 
+<img src="./Files/PublishSubject.png" height="200" width="400">
+
+***Working with behavior subjects***
+
+Behavior subjects work similarly to publish subjects, **except they will replay the latest `.next` event** to new subscribers. 
+
+You can’t create one without providing an initial value. If you can’t provide an initial value at creation time, that probably means you need to use a PublishSubject instead.
+
+Check out this marble diagram:
+
+<img src="./Files/behaviorSubject.png" height="200" width="400">
+
+The first line from the top is the subject. The first subscriber on the second line down subscribes after 1 but before 2, so it gets 1 immediately upon subscription, and then 2 and 3 as they’re emitted by the subject. Similarly, the second subscriber subscribes after 2 but before 3, so it gets 2 immediately and then 3 when it’s emitted.
+
+```
+let disposeBag = DisposeBag()
+        
+let subject = BehaviorSubject(value: "Initial Value")
+        
+//Since BehaviorSubject always emits the latest element.
+//Print 1: 1==>Initial Value
+subject.subscribe({ event in
+        print("1==>", event.element ?? event)
+}).disposed(by: disposeBag)
+        
+//Print 2: 1==>A
+subject.onNext("A")
+        
+//Print 3: 2==>A
+subject.subscribe({ event in
+        print("2==>", event.element ?? event)
+}).disposed(by: disposeBag)
+        
+//Print 4: 1==>error(anError)
+//Print 5: 2==>error(anError)
+//subject terminated bt error
+subject.onError(MyError.anError)
+        
+//Print 6: 3==>error(anError)
+subject.subscribe({ event in
+        print("3==>", event.element ?? event)
+}).disposed(by: disposeBag)
+
+Output:
+1==> Initial Value
+1==> A
+2==> A
+1==> error(anError)
+2==> error(anError)
+3==> error(anError)
+```
+
+But what if you wanted to show more than the latest value? For example, on a search screen, you may want to show the most recent five search terms used. This is where replay subjects come in.
+
+***Working with Replay subjects***
+
+Replay subjects will temporarily cache, or buffer, the latest elements they emit, up to a specified size of your choosing. They will then replay that buffer to new subscribers.
+
+The following marble diagram depicts a replay subject with a buffer size of 2. 
+
+<img src="./Files/Replaysubjects.png" height="200" width="400">
+
+The first subscriber (middle line) is already subscribed to the replay subject (top line) so it gets elements as they’re emitted. The second subscriber (bottom line) subscribes after 2, so it gets 1 and 2 replayed to it.
+
+```
+        let disposeBag = DisposeBag()
+        
+        let subject = ReplaySubject<String>.create(bufferSize: 2)
+        
+        subject.onNext("A")
+        
+        //Print: 1==> A
+        subject.subscribe({ event in
+            print("1==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        //Print: 1==> A
+        subject.onNext("B")
+        
+        //Print: 2==> A
+        //Print: 2==> B
+        subject.subscribe({ event in
+            print("2==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        //Print: 1==> C
+        //Print: 2==> C
+        subject.onNext("C")
+        
+        //Print: 3==> B
+        //Print: 3==> C
+        subject.subscribe({ event in
+            print("3==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        //Print: 1==> error(anError)
+        //Print: 2==> error(anError)
+        //Print: 3==> error(anError)
+        subject.onError(MyError.anError)
+        
+        //Print: 4==> B
+        //Print: 4==> C
+        //Print: 4==> error(anError)
+        subject.subscribe({ event in
+            print("4==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        
+Output:
+1==> A
+1==> B
+2==> A
+2==> B
+1==> C
+2==> C
+3==> B
+3==> C
+1==> error(anError)
+2==> error(anError)
+3==> error(anError)
+4==> B
+4==> C
+4==> error(anError)
+```
+What’s going on, here? The replay subject is terminated with an error, which it will re-emit to new subscribers as you’ve already seen subjects do. But the buffer is also still hanging around, so it gets replayed to new subscribers as well, before the stop event is re-emitted.
+
+***Working with relays***
+
+A `PublishRelay` wraps a `PublishSubject` and a `BehaviorRelay` wraps a BehaviorSubject. What sets relays apart from their wrapped subjects is that **they are guaranteed to never terminate**.
+
+As mentioned earlier, a relay wraps a subject while maintaining its replay behavior. Unlike other subjects (and observables in general), you add a value onto a relay by using the `accept(_:)` method. In other words, you don’t use `onNext(_:)`. This is due to the fact relays can only accept values, and you cannot add a `.error` or `.completed` event onto them.
+
+```
+        let disposeBag = DisposeBag()
+        
+        let relay = PublishRelay<String>()
+        
+        relay.accept("A")
+        
+        relay.subscribe({ event in
+            print("1==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        relay.accept("B")
+        // Not allowed.
+        //relay.accept(MyError.anError)
+        //relay.onCompleted
+
+Output:
+1==> B
+```
+
+```
+        let disposeBag = DisposeBag()
+        
+        let relay = BehaviorRelay(value: "A")
+        
+        relay.subscribe({ event in
+            print("1==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        relay.accept("B")
+        
+        relay.subscribe({ event in
+            print("2==>", event.element ?? event)
+        }).disposed(by: disposeBag)
+        
+        relay.accept("C")
+        // Not allowed.
+        //relay.accept(MyError.anError)
+        //relay.onCompleted
+        
+        //behavior relays let you directly access their current value.
+        print("Behavior relays current value: ", relay.value)
+
+Output:
+1==> A
+1==> B
+2==> B
+1==> C
+2==> C
+Behavior relays current value: C
+```
