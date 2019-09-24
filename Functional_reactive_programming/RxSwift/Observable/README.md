@@ -334,3 +334,13 @@ Single.create(subscribe: { single in
     }
 }.disposed(by: disposeBag)
 ```
+
+***Do Operator***
+
+Register an action to take upon a variety of Observable lifecycle events.
+
+You can provide handlers for any or all of these events, Useful to perform side effects.
+
+```
+do`(onNext: ((Int) throws -> Void)? = nil, afterNext: ((Int) throws -> Void)? = nil, onError: ((Error) throws -> Void)? = nil, afterError: ((Error) throws -> Void)? = nil, onCompleted: (() throws -> Void)? = nil, afterCompleted: (() throws -> Void)? = nil, onSubscribe: (() -> Void)? = nil, onSubscribed: (() -> Void)? = nil, onDispose: (() -> Void)? = nil) -> Observable<Int>
+```
