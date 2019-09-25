@@ -266,7 +266,7 @@ This kind of trait is useful in situations such as saving a file, downloading a 
 
 <img src="./Files/Single.png" height="100" width="400">
 
-You can convert an observable sequence to a completable by using the `asSingle()` operator, You can also create a completable sequence by using `Completable.create { ... }`
+You can convert an observable sequence to a completable by using the `asSingle()` operator, You can also create a completable sequence by using `Single.create { ... }`
 
 
 A **Completable** will only emit a `.completed` or `.error` event. It doesn't emit any values.
@@ -275,7 +275,7 @@ You could use a completable when you only care that an operation completed succe
 
 <img src="./Files/Completable.png" height="100" width="450">
 
-You can convert an observable sequence to a completable by using the `ignoreElements()` operator, You can also create a completable sequence by using `Single.create { ... }`
+You can convert an observable sequence to a completable by using the `ignoreElements()` operator, You can also create a completable sequence by using `Completable.create { ... }`
 
 Finally, **Maybe** is a mashup of a Single and Completable.
 
