@@ -262,17 +262,30 @@ There are three kinds of traits in RxSwift: `Single`, `Maybe` and `Completable`.
 
 `.success(value)` is actually a combination of the `.next` and `.completed` events.
 
-This is useful for one-time processes that will either succeed and yield a value or fail, such as downloading data or loading it from disk.
+This kind of trait is useful in situations such as saving a file, downloading a file, loading data from disk or basically any asynchronous operation that yields a value.
 
 <img src="./Files/Single.png" height="100" width="400">
+
+You can convert an observable sequence to a completable by using the `asSingle()` operator, You can also create a completable sequence by using `Completable.create { ... }`
+
 
 A **Completable** will only emit a `.completed` or `.error` event. It doesn't emit any values.
 
 You could use a completable when you only care that an operation completed successfully or failed, such as a file write.
 
+<img src="./Files/Completable.png" height="100" width="450">
+
+You can convert an observable sequence to a completable by using the `ignoreElements()` operator, You can also create a completable sequence by using `Single.create { ... }`
+
 Finally, **Maybe** is a mashup of a Single and Completable.
 
-It can either emit a `.success(value)`, `.completed` or `.error`. 
+It can either emit a `.success(value)`, `.completed` or `.error`.
+
+Maybe is quite similar to Single with the only difference that the observable may **not emit a value** upon successful completion.
+
+<img src="./Files/Maybe.png" height="100" width="600">
+
+You can convert an observable sequence to a completable by using the `asMaybe()` operator, You can also create a completable sequence by using `Maybe.create { ... }`
 
 If you need to implement an operation that could either succeed or fail, and optionally return a value on success, then use Maybe.
 
