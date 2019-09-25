@@ -239,3 +239,7 @@ RxSwift and MVVM definitely do play nicely together. The reason MVVM and RxSwift
 ### [Observable in details](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Functional_reactive_programming/RxSwift/Observable)
 
 ### [Subject in details](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Functional_reactive_programming/RxSwift/Subject)
+
+## Projects Info
+
+*   **v1Combinestagram**: To practice on basic understanding of Observable and Subject.
