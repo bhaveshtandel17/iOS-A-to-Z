@@ -264,6 +264,8 @@ There are three kinds of traits in RxSwift: `Single`, `Maybe` and `Completable`.
 
 This is useful for one-time processes that will either succeed and yield a value or fail, such as downloading data or loading it from disk.
 
+<img src="./Files/Single.png" height="100" width="400">
+
 A **Completable** will only emit a `.completed` or `.error` event. It doesn't emit any values.
 
 You could use a completable when you only care that an operation completed successfully or failed, such as a file write.
@@ -274,7 +276,7 @@ It can either emit a `.success(value)`, `.completed` or `.error`.
 
 If you need to implement an operation that could either succeed or fail, and optionally return a value on success, then use Maybe.
 
-Example with Rehular Observerable
+Example with Regular Observerable
 ```
 Observable<String>.create({ observer in
     let disposable = Disposables.create()
@@ -296,7 +298,7 @@ Observable<String>.create({ observer in
     return disposable   
 }).subscribe{
     switch $0 {
-    case .success(let string):
+    case .next(let string):
         print(string)
     case .error(let error):
         print(error)
