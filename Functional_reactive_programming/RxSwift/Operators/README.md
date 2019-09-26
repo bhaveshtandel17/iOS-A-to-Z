@@ -236,3 +236,31 @@ output:
 1
 2
 ```
+
+***Distinct operators***
+
+**`distinctUntilChanged`*** only prevents duplicates that are right next to each other, so the second 1 gets through.
+
+<img src="./Files/distinctUntilChanged.png" height="200" width="400"/>
+
+```
+    let disposeBag = DisposeBag()
+    
+    Observable.of("A", "A", "B", "B", "A")
+        .distinctUntilChanged()
+        .subscribe(onNext: {
+            print($0)
+        })
+        .disposed(by: disposeBag)
+
+OUTPUT:
+A
+B
+C
+```
+`distinctUntilChanged` only prevents contiguous duplicates. So the 2nd element is prevented because it’s the same as the 1st, but the last item, also an A, is allowed through, because it comes after a different letter (B).
+
+These are strings, which conform to `Equatable`. So, these elements are compared for equality based on their implementation conforming to `Equatable`. However, you can provide your own custom comparing logic by using `distinctUntilChanged(_:)`.
+
+Use `distinctUntilChanged(_:)`, which takes a closure.
+
