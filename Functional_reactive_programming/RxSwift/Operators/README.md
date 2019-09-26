@@ -1,2 +1,3 @@
 # Operators
 
+## Filtering Operators
