@@ -1,5 +1,9 @@
 # Operators
 
+The operators operate on the elements of their Observable class and produce a new observable sequence as a result.
+
+Operator allows you to chain operators, one after another, and perform several transformations in sequence.
+
 ## Filtering Operators
 
 > **Note**: This type of marble diagram helps to visualize how operators work. The top line is the observable that is being subscribed to. The box represents the operator and its parameters, and the bottom line is the subscriber, or more specifically, what the subscriber will receive after the operator does its thing.
