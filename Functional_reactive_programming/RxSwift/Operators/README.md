@@ -268,3 +268,153 @@ These are strings, which conform to `Equatable`. So, these elements are compared
 
 Use `distinctUntilChanged(_:)`, which takes a closure.
 
+## Transforming Operators
+
+***`toArray`*** will convert an observable sequence of elements into an array of those elements once the observable completes, and emit a .next event containing that array to subscribers.
+
+
+<img src="./Files/toarray.png" height="200" width="400"/>
+
+```
+let disposeBag = DisposeBag()
+Observable.of("A", "B", "C")
+    .toArray()
+    .subscribe(onNext: {
+        print($0)
+    })
+    .disposed(by: disposeBag)
+
+Output:
+["A", "B", "C"]
+```
+
+***`map`***: RxSwift’s `map` operator works just like Swift’s standard `map`, except it operates on observables.
+
+<img src="./Files/map.png" height="200" width="400"/>
+
+```
+let disposeBag = DisposeBag()
+
+let formatter = NumberFormatter()
+formatter.numberStyle = .spellOut
+
+Observable<Int>.of(123, 4, 56)
+    .map {
+        formatter.string(for: $0) ?? ""
+    }
+    .subscribe(onNext: {
+        print($0)
+    })
+    .disposed(by: disposeBag)
+    
+Output:
+one hundred twenty-three
+four
+fifty-six
+```
+
+***Transforming inner observables***
+RxSwift includes a few operators in the `flatMap` family that allow you to reach into an observable and work with its observable properties. You’re going to learn how to use the two most common ones here.
+
+The first one you’ll learn about is `flatMap`.
+
+Projects each element of an observable sequence to an observable sequence and merges the resulting observable sequences into one observable sequence.
+
+<img src="./Files/flatmap.png" height="300" width="450"/>
+
+The easiest way to follow what’s happening in this marble diagram is to take each path from the source observable (the top line) all the way through to the target observable that will deliver elements to the subscriber (the bottom line).
+
+The source observable is of an `object type` that has a `value` property that itself is an observable of type Int. It’s value property’s initial value is the number of the object, that is, O1’s initial value is 1, O2’s is 2, and O3’s is 3.
+
+Starting with O1(Object Type), flatMap receives the object and reaches in to project its value property onto a new observable (the 1st line below flatMap just for O1), and that observable is flattened down to the target observable that will deliver elements to the subscriber (the bottom line).
+
+Later, O1’s value(inner observable) property changes to 4, which is not visually represented in the marble diagram (otherwise the diagram would become even more congested). But the evidence that O1’s value has changed is that it is projected onto the existing observable for O1, and then flattened down to the target observable. This all happens in a time-linear fashion.
+
+The next value in the source observable, O2, is received by flatMap, its initial value 2 projected onto a new observable for O2, and then flattened down to the target observable. Later, O2’s value is changed to 5. It is projected and then flattened to the target observable.
+
+Finally, O3 is received by flatMap, its initial value of 3 is projected and flattened.
+
+flatMap projects and transforms an observable value of an observable, and then flattens it down to a target observable.
+
+```
+//Object Type
+struct Student {
+    let score: BehaviorSubject<Int>
+}
+
+    let disposeBag = DisposeBag()
+    
+    let laura = Student(score: BehaviorSubject(value: 80))
+    let charlotte = Student(score: BehaviorSubject(value: 90))
+    
+    let student = PublishSubject<Student>()
+    
+    student
+        .flatMap {
+            $0.score
+        }
+        .subscribe(onNext: {
+            print($0)
+        })
+        .disposed(by: disposeBag)
+    
+    //Source observeable have Object type elements
+    //And it also has inner observeable property
+    student.onNext(laura)
+    //Inner observeable property is changed
+    laura.score.onNext(85)
+    
+    student.onNext(charlotte)
+    //Inner observeable property is changed
+    laura.score.onNext(95)
+    charlotte.score.onNext(100)
+    
+Output:
+80
+85 // Imp
+90
+95 // Imp
+100 // Imp
+````
+
+***`flatMapLatest`***
+
+Projects each element of an observable sequence into a new sequence of observable sequences and then transforms an observable sequence of observable sequences into an observable sequence producing values only from the most recent observable sequence.
+
+<img src="./Files/flatmaplatest.png" height="300" width="450"/>
+
+`flatMapLatest` is actually a combination of two operators, `map` and `switchLatest`.
+
+`flatMapLatest` works just like `flatMap` to reach into an observable element to access its observable property and project it onto a new sequence for each element of the source observable. Those elements are flattened down into a target observable that will provide elements to the subscriber. What makes `flatMapLatest` different is that it will automatically **switch to the latest observable** and **unsubscribe from the the previous one**.
+
+```
+let disposeBag = DisposeBag()
+
+let laura = Student(score: BehaviorSubject(value: 80))
+let charlotte = Student(score: BehaviorSubject(value: 90))
+
+let student = PublishSubject<Student>()
+
+student
+    .flatMapLatest {
+        $0.score
+    }
+    .subscribe(onNext: {
+          print($0)
+    })
+    .disposed(by: disposeBag)
+    
+    student.onNext(laura)
+    laura.score.onNext(85) //Still laura observeable is subscribed
+    student.onNext(charlotte) // laura observeable is unsubscribed; Because charlotte is created.
+    charlotte.score.onNext(100)
+    laura.score.onNext(95) // Dodnt Print; Because laura observeable is unsubscribed
+    charlotte.score.onNext(110)
+    
+Output:
+80
+85
+90
+100
+110
+```
