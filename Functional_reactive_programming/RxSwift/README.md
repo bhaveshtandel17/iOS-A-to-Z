@@ -243,3 +243,5 @@ RxSwift and MVVM definitely do play nicely together. The reason MVVM and RxSwift
 ## Projects Info
 
 *   **v1Combinestagram**: To practice on basic understanding of Observable and Subject.
+
+*   **v2Combinestagram**: To practice on basic understanding of Filtering Operators.
