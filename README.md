@@ -1,6 +1,6 @@
 # iOS-A-to-Z
 
-### [Basics](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Basics)
+### [Object Oriented Programming in Swift](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/OOPS)
 
 ### Project Setup
 * [Setup different iOS Environment](https://github.com/bhaveshtandel17/BuildConfigurationsDemo)
