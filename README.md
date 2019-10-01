@@ -1,7 +1,6 @@
 # iOS-A-to-Z
-study purpose
 
-
+### [Basics](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/Basics)
 
 ### Project Setup
 * [Setup different iOS Environment](https://github.com/bhaveshtandel17/BuildConfigurationsDemo)
