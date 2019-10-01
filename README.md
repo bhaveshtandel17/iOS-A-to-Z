@@ -2,6 +2,8 @@
 
 ### [Object Oriented Programming in Swift](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/OOPS)
 
+### [DesignPattern](https://github.com/bhaveshtandel17/iOS-A-to-Z/tree/master/DesignPattern)
+
 ### Project Setup
 * [Setup different iOS Environment](https://github.com/bhaveshtandel17/BuildConfigurationsDemo)
 * [What is Run Script](https://github.com/bhaveshtandel17/RunScriptDemo)
