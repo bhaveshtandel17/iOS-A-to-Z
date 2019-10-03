@@ -51,3 +51,38 @@ Controller.**"
 
 To solve this issue, You should use other patterns as needed along with MVC.
 
+### Delegation Pattern (Behavioral Pattern)
+
+"*Delegation is a design pattern that enables a class to hand off (or “delegate”) some of its responsibilities to an instance of another class.*"
+
+The delegation pattern enables an object to use another “helper” object to provide data(datasource) or perform a task(delegate) rather than do the task itself. This pattern has three parts:
+
+<img src="./Files/delegate.png"/>
+
+An **object needing a delegate**, also known as the delegating object. It’s the object that has a delegate. The delegate is usually held as a weak property to avoid a retain cycle. (example: UITableView)
+
+A **delegate protocol**, which defines the methods a delegate may or should implement. (example: UITableViewDelegate Protocol)
+
+A **delegate**, which is the helper object that implements the delegate protocol. (example: Your view controller who conform protocol)
+
+By relying on a delegate protocol instead of a concrete object, the implementation is much more flexible: any object that implements the protocol can be used as the delegate!
+
+***When should you use it?***
+
+Use this pattern to break up large classes or create generic, reusable components.
+
+Delegate relationships are common throughout Apple frameworks, especially UIKit. Both `DataSource-` and `Delegate-` named objects actually follow the delegation pattern, as each involves one object asking another to provide data or do something.
+
+Apple frameworks commonly use the term DataSource to group delegate methods that provide data. For example, `UITableViewDataSource` is expected to provide `UITableViewCells` to display.
+
+Apple frameworks typically use protocols named Delegate to group methods that receive data or events. For example, `UITableViewDelegate` is notified whenever a row is selected.
+
+***What should you be careful about?***
+
+Delegates are extremely useful, but they can be overused. Be careful about creating too many delegates for an object.
+
+If an object needs several delegates, this may be an indicator that it’s doing too much. Consider breaking up the object’s functionality for specific use cases, instead of one catch-all class.
+
+You should also be careful about creating `retain cycles`. Most often, delegate properties should be `weak`. 
+
+
