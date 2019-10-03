@@ -172,3 +172,11 @@ let vc2 = MoviesRatingViewController()
 vc2.movieRatingClient = IMDbClient()
 vc2.movieRatingClient.ratingServiceName //"IMDb"
 ```
+
+***Key points***
+
+* The strategy pattern defines a family of interchangeable objects that can be set orswitched at runtime.
+
+* This pattern has three parts: an object using a strategy, a strategy protocol, and a family of strategy objects.
+
+* The strategy pattern is similar to the delegation pattern: Both patterns use a protocol for flexibility. Unlike the delegation pattern, however, strategies are meant to be switched at runtime, whereas delegates are usually fixed.
