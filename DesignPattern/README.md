@@ -322,3 +322,153 @@ print("New Game Score: \(game.state.score)") // New Game Score: 0
 game = try! gameSystem.load(title: "Best Game Ever")
 print("Loaded Game Score: \(game.state.score)") //Loaded Game Score: 9002
 ```
+
+### Observer Pattern (Behavioral)
+
+The observer pattern lets one object observe changes on another object.
+
+Two different ways to implement the observer pattern in this chapter: Using `key value observation (KVO)`, and using an `Observable` wrapper.
+
+<img src="./Files/Observer.png"/>
+
+This pattern involves two main objects:
+1. The **subject** is the object that’s being observed.
+2. The **observer** is the object doing the observing.
+
+Unfortunately, Swift 4 doesn’t yet have language-level support for KVO. Instead, you’re required to `import Foundation` and subclass `NSObject`, which uses the Objective-C runtime to implement KVO. What if you don’t want to, or can’t subclass `NSObject`? You can write your own `Observable` wrapper class instead!
+
+***When should you use it?***
+
+Use the observer pattern whenever you want to receive changes made on another object.
+
+This pattern is often used with MVC, where the view **controller is the observer** and the **model is the subject**. This allows the model to communicate changes back to the view controller without needing to know anything about the view controller’s type. Thereby, different view controllers can use and observe changes on a shared model type.
+
+***USING KVO***
+> Subject
+```
+import Foundation
+@objcMembers public class KVOUser: NSObject { //@objcMembers is the same as putting @objc on every property.
+  dynamic var name: String 
+  public init(name: String) {
+    self.name = name
+  }
+}
+```
+> Code in Observer
+```
+let kvoUser = KVOUser(name: "Ray")
+//observer object
+var kvoObserver: NSKeyValueObservation? = kvoUser.observe(\.name, options: [.initial, .new]) { (user, change) in
+  print("User's name is \(user.name)")
+}
+
+kvoUser.name = "Rockin' Ray"// Output: User's name is Rockin' Ray
+
+kvoObserver = nil // or explicitly call removeObserver(_:forKeyPath:),
+kvoUser.name = "Ray has left the building" //Nothing print
+```
+
+**KVO’s biggest downside: You’re required to subclass NSObject and use the Objective-C runtime.**
+
+If you’re not okay with this, you can create your own `Observable` wrapper to get around these limitations.
+> `Observable` wrapper
+```
+import Foundation
+
+public class Observable<Type> {
+    // MARK: - Callback
+    fileprivate class Callback {
+        fileprivate weak var observer: AnyObject?
+        fileprivate let options: [ObservableOptions]
+        fileprivate let closure: (Type, ObservableOptions) -> Void
+        fileprivate init(observer: AnyObject, options: [ObservableOptions], closure: @escaping (Type, ObservableOptions) -> Void) {
+            self.observer = observer
+            self.options = options
+            self.closure = closure
+        }
+    }
+    
+    // MARK: - Properties
+    public var value: Type {
+        didSet {
+            removeNilObserverCallbacks()
+            notifyCallbacks(value: oldValue, option: .old)
+            notifyCallbacks(value: value, option: .new)
+        }
+    }
+    private func removeNilObserverCallbacks() {
+        callbacks = callbacks.filter { $0.observer != nil }
+    }
+    
+    private func notifyCallbacks(value: Type, option: ObservableOptions) {
+        let callbacksToNotify = callbacks.filter {
+            $0.options.contains(option)
+        }
+        callbacksToNotify.forEach { $0.closure(value, option) }
+    }
+    
+    // MARK: - Object Lifecycle
+    public init(_ value: Type) {
+        self.value = value
+    }
+    
+    // MARK: - Managing Observers
+    private var callbacks: [Callback] = []
+    
+    public func addObserver(_ observer: AnyObject, removeIfExists: Bool = true, options: [ObservableOptions] = [.new], closure: @escaping (Type, ObservableOptions) -> Void) {
+        if removeIfExists {
+            removeObserver(observer)
+        }
+        
+        let callback = Callback(observer: observer, options: options, closure: closure)
+        callbacks.append(callback)
+
+        if options.contains(.initial) {
+            closure(value, .initial)
+        }
+    }
+
+    public func removeObserver(_ observer: AnyObject) {
+        callbacks = callbacks.filter { $0.observer !== observer }
+    }
+}
+
+// MARK: - ObservableOptions
+public struct ObservableOptions: OptionSet {
+    public static let initial = ObservableOptions(rawValue: 1 << 0)
+    public static let old = ObservableOptions(rawValue: 1 << 1)
+    public static let new = ObservableOptions(rawValue: 1 << 2)
+    public var rawValue: Int
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+}
+```
+> Observable Example
+```
+// Subject
+public class User {
+  public let name: Observable<String>
+  public init(name: String) {
+    self.name = Observable(name)
+  }
+}
+
+// Observer
+public class Observer { }
+
+//Test
+let user = User(name: "Madeline") //User's name is Madeline
+var observer: Observer? = Observer()
+
+user.name.addObserver(observer!, options: [.initial, .new]) { name, change in
+  print("User's name is \(name)")
+}
+
+user.name.value = "Amelia" //User's name is Amelia
+```
+
+***What should you be careful about?***
+For simple models or properties that never change, the observer pattern may beoverkill; it can lead to unnecessary work. Before you implement the observer pattern, define what you expect to change and under which conditions. If you can’t identify a reason for an object or property to change, you’re likely better off not implementing KVO/Observable immediately for it.
+
+
