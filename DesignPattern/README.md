@@ -645,3 +645,20 @@ The builder pattern works best for creating complex products that require multip
 
 Instead, consider providing convenience initializers to create the product.
 
+***RabbleWabble Project***
+
+This project is covered all fundamental design topics listed above: MVC, Delegate, Strategy, Singleton, Memento, Observer and Builder.
+
+* MVC: Application architecture is based on iOS standard MVC pattern, where viewcontroller owns models and views. Viewcontroller is responsible to update model after UI action also it is responsible to observe changes of model and update view. (Observer pattern)
+
+* Delegate: Use delegate pattern to handover one object's responsibility to another. In many places delegate pattern is used in app. One of example is `QuestionViewControllerDelegate`.
+
+* Strategy: Use strategy pattern when you have two or more different behaviors that are interchangeable at runtime. `QuestionStrategy` protocol,  `SequentialQuestionStrategy` and `RandomQuestionStrategy` conforms `QuestionStrategy` protocol. those two classes provice interchangeable behaviors at runtime. (as user set in application settings)
+
+* Singleton: Singleton pattern restricts a class to only one instance. Use singleton pattern in `AppSettings` where user can decide questions sequence, either in Random or Sequential. 
+
+* Memento: Memento pattern allows an object to be saved and restored. Used momento pattern to store `QuestionGroup` as json file. Use swift `codeable`, which helps to encode and decode custom type i.e `QuestionGroup` in JSON. Save in mobile disk in json file and retirve as its. (`Score` is class we have added in `QuestionGroup`) So `QuestionGroup` is saved and restored (persist) data/game. `DiskCaretaker` helper and `QuestionGroupCaretaker` is care taker. 
+
+* Observer: observer pattern lets one object observe changes on another object. Two ways to implement observer pattern : Using key valueobservation (KVO), and using an `Observable` wrapper(Custom). but app is used `Observable` wrapper because it doesn't need to unnecessary import ObjectC. In app, `QuestionGroup` model's  `runningPercentage` Observable property is observe in `SelectQuestionGroupViewController` view to update UI.
+
+* Builder: Use the builder pattern when you want to create a complex object using a series of steps. In app user can crete its own question group step bt step. `QuestionBuilder` builds `QuestionGroup` object in `CreateQuestionGroupViewController`.
