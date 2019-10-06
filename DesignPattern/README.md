@@ -469,6 +469,179 @@ user.name.value = "Amelia" //User's name is Amelia
 ```
 
 ***What should you be careful about?***
-For simple models or properties that never change, the observer pattern may beoverkill; it can lead to unnecessary work. Before you implement the observer pattern, define what you expect to change and under which conditions. If you can’t identify a reason for an object or property to change, you’re likely better off not implementing KVO/Observable immediately for it.
 
+For simple models or properties that never change, the observer pattern may be overkill; it can lead to unnecessary work. Before you implement the observer pattern, define what you expect to change and under which conditions. If you can’t identify a reason for an object or property to change, you’re likely better off not implementing KVO/Observable immediately for it.
+
+### Builder Pattern (Creational)
+
+The builder pattern allows you to create complex objects by providing inputs step-bystep, instead of requiring all inputs upfront via an initializer. This pattern involves three main types:
+
+<img src="./Files/Builder.png"/>
+
+1.  The **director** accepts inputs and coordinates with the builder. This is usually a view controller or a helper class that’s used by a view controller.
+
+2.  The **product** is the complex object to be created. This can be either a struct or a class, depending on desired reference semantics. It’s usually a `model`, but it can be any type depending on your use case.
+
+3.  The **builder** accepts step-by-step inputs and handles the creation of the product. This is often a class, so it can be reused by reference.
+
+The director accepts inputs and coordinates with the builder; the product is the complex object that’s created; and the builder takes step-by-step inputs and creates the product.
+
+***When should you use it?***
+
+Use the builder pattern when you want to create a complex object using a series of steps.
+
+This pattern works especially well when a product requires multiple inputs. The builder abstracts(hide complexivity of object creation) how these inputs are used to create the product, and it accepts them in whatever order the director wants to provide them.
+> Product
+```
+public struct Hamburger {
+  public let meat: Meat
+  public let sauce: Sauces
+  public let toppings: Toppings
+}
+
+// Helper and model type
+
+extension Hamburger: CustomStringConvertible {
+  public var description: String {
+    return meat.rawValue + " burger"
+  }
+}
+
+public enum Meat: String {
+  case beef
+  case chicken
+  case kitten
+  case tofu
+}
+
+//OptionSet. This will allow you to combine multiple
+public struct Sauces: OptionSet {
+  public static let mayonnaise = Sauces(rawValue: 1 << 0)
+  public static let mustard = Sauces(rawValue: 1 << 1)
+  public static let ketchup = Sauces(rawValue: 1 << 2)
+  public static let secret = Sauces(rawValue: 1 << 3)
+  
+  public let rawValue: Int
+  
+  public init(rawValue: Int) {
+    self.rawValue = rawValue
+  }
+}
+
+public struct Toppings: OptionSet {
+  public static let cheese = Toppings(rawValue: 1 << 0)
+  public static let lettuce = Toppings(rawValue: 1 << 1)
+  public static let pickles = Toppings(rawValue: 1 << 2)
+  public static let tomatoes = Toppings(rawValue: 1 << 3)
+
+   public let rawValue: Int
+
+  public init(rawValue: Int) {
+    self.rawValue = rawValue
+  }
+}
+```
+> Builder
+```
+public class HamburgerBuilder {
+
+  //private(set) for each to ensure only HamburgerBuilder can set them directly.
+  //private(set) forces consumers to use the public setter methods. 
+  //This allows the builder to perform validation before setting the properties.
+  
+  public private(set) var meat: Meat = .beef
+  public private(set) var sauces: Sauces = []
+  public private(set) var toppings: Toppings = []
+
+  //declared each property using private(set), you need to provide public methods to change them. 
+  //You do so via addSauces(_:), removeSauces(_:), addToppings(_:), removeToppings(_:) and setMeat(_:).
+  public func addSauces(_ sauce: Sauces) {
+    sauces.insert(sauce)
+  }
+  
+  public func removeSauces(_ sauce: Sauces) {
+    sauces.remove(sauce)
+  }
+  
+  public func addToppings(_ topping: Toppings) {
+    toppings.insert(topping)
+  }
+  
+  public func removeToppings(_ topping: Toppings) {
+   toppings.remove(topping)
+  }
+  
+  public func setMeat(_ meat: Meat) {
+    guard isAvailable(meat) else { throw Error.soldOut }
+    self.meat = meat
+  }
+  
+  //create the Hamburger
+  public func build() -> Hamburger {
+    return Hamburger(meat: meat,
+    sauce: sauces,
+    toppings: toppings)
+  }
+  
+  private var soldOutMeats: [Meat] = []
+  
+  // To test purpose
+  private var soldOutMeats: [Meat] = [.kitten]
+  
+  public func isAvailable(_ meat: Meat) -> Bool {
+    return !soldOutMeats.contains(meat)
+  }
+  
+  public enum Error: Swift.Error {
+    case soldOut
+  }
+}
+```
+
+> Director
+```
+public class Employee {
+
+  public func createCombo1() throws -> Hamburger {
+    let builder = HamburgerBuilder()
+    try builder.setMeat(.beef) // Can throw
+    builder.addSauces(.secret)
+    builder.addToppings([.lettuce, .tomatoes, .pickles])
+    return builder.build()
+}
+
+  public func createKittenSpecial() throws -> Hamburger {
+    let builder = HamburgerBuilder()
+    try builder.setMeat(.kitten) // Can throw
+    builder.addSauces(.mustard)
+    builder.addToppings([.lettuce, .tomatoes])
+    return builder.build()
+  }
+}
+```
+> Example
+```
+let burgerFlipper = Employee()
+
+if let combo1 = try? burgerFlipper.createCombo1() {
+  print("Nom nom " + combo1.description) 
+}
+
+Output: Nom nom beef burger
+
+//kitten menat is sold out.
+if let kittenBurger = try? burgerFlipper.createKittenSpecial() {
+    print("Nom nom nom " + kittenBurger.description)
+  } else {
+    print("Sorry, no kitten burgers here... :[")
+}
+
+Output: Sorry, no kitten burgers here... :[\
+```
+
+***What should you be careful about?***
+
+The builder pattern works best for creating complex products that require multiple inputs using a series of steps. If your product doesn’t have several inputs or can’t be created step by step, the builder pattern may be more trouble than it’s worth.
+
+Instead, consider providing convenience initializers to create the product.
 
