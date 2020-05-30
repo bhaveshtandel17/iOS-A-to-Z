@@ -70,7 +70,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yzH-S5-QfC"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Select Question Group" id="t71-BM-YWD"/>
+                    <navigationItem key="navigationItem" title="Select Question Group" id="t71-BM-YWD">
+                        <barButtonItem key="leftBarButtonItem" image="ic_settings" id="35u-us-V9X">
+                            <connections>
+                                <segue destination="7rf-dx-Vgr" kind="show" id="2mH-Iv-nYn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="BVC-ga-jFH" id="Gog-5b-h2R"/>
                     </connections>
@@ -78,6 +84,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QBh-ca-5oj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="278.26086956521743" y="133.92857142857142"/>
+        </scene>
+        <!--App Settings-->
+        <scene sceneID="YqH-HR-y0N">
+            <objects>
+                <tableViewController title="App Settings" id="7rf-dx-Vgr" customClass="AppSettingsViewController" customModule="RabbleWabble" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OXS-Es-3ZE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5bU-IV-b7O">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5bU-IV-b7O" id="NFk-wY-mjA">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7rf-dx-Vgr" id="ssa-ac-g7e"/>
+                            <outlet property="delegate" destination="7rf-dx-Vgr" id="lYd-iK-68x"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="H5b-hY-rSb"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Usx-u1-Fpj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="278" y="845"/>
         </scene>
         <!--Question View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -196,5 +231,6 @@
     <resources>
         <image name="ic_circle_check" width="80" height="80"/>
         <image name="ic_circle_x" width="80" height="80"/>
+        <image name="ic_settings" width="26" height="26"/>
     </resources>
 </document>
