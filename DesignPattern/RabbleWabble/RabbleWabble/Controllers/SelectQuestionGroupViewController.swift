@@ -26,7 +26,7 @@ class SelectQuestionGroupViewController: UIViewController {
         set {
             questionGroupCaretaker.selectedQuestionGroup = newValue
         }
-}
+    }
     private let appSettings = AppSettings.shared
     
     override func viewDidLoad() {
@@ -52,6 +52,11 @@ extension SelectQuestionGroupViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionGroupCell") as! QuestionGroupCell
         let questionGroup = questionGroups[indexPath.row]
         cell.titleLabel.text = questionGroup.title
+        cell.percentageSubscriber = questionGroup.score.$runningPercentage // 1
+            .receive(on: DispatchQueue.main) // 2
+            .map() { // 3
+                return String(format: "%.0f %%", round(100 * $0))
+        }.assign(to: \.text, on: cell.percentageLabel)
         return cell
     }
 }
@@ -86,4 +91,3 @@ extension SelectQuestionGroupViewController: QuestionViewControllerDelegate {
         navigationController?.popToViewController(self, animated: true)
     }
 }
-
