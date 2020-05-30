@@ -25,6 +25,7 @@
 		92CC11492482022900554927 /* AppSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CC11482482022900554927 /* AppSettingsViewController.swift */; };
 		92CC114C24820E6000554927 /* DiskCaretaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CC114B24820E6000554927 /* DiskCaretaker.swift */; };
 		92CC114E24820F0300554927 /* QuestionGroupCaretaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CC114D24820F0300554927 /* QuestionGroupCaretaker.swift */; };
+		92CC115024820FDE00554927 /* QuestionGroupData.json in Resources */ = {isa = PBXBuildFile; fileRef = 92CC114F24820FDE00554927 /* QuestionGroupData.json */; };
 		92ECB6772482359A00C6C4D1 /* BaseQuestionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ECB6762482359A00C6C4D1 /* BaseQuestionStrategy.swift */; };
 /* End PBXBuildFile section */
 
