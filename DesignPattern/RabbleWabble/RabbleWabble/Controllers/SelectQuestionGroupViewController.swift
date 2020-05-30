@@ -15,15 +15,30 @@ class SelectQuestionGroupViewController: UIViewController {
             tableView.tableFooterView = UIView()
         }
     }
-    
-    public let questionGroups = QuestionGroup.allGroups()
-    private var selectedQuestionGroup: QuestionGroup!
+    private let questionGroupCaretaker = QuestionGroupCaretaker()
+    private var questionGroups: [QuestionGroup] {
+        return questionGroupCaretaker.questionGroups
+    }
+    private var selectedQuestionGroup: QuestionGroup! {
+        get {
+            return questionGroupCaretaker.selectedQuestionGroup
+        }
+        set {
+            questionGroupCaretaker.selectedQuestionGroup = newValue
+        }
+}
     private let appSettings = AppSettings.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        questionGroups.forEach {
+            print("\($0.title): " +
+                "correctCount \($0.score.correctCount), " +
+                "incorrectCount \($0.score.incorrectCount)"
+            )
+        }
     }
 }
 
@@ -55,7 +70,7 @@ extension SelectQuestionGroupViewController: UITableViewDelegate {
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let viewController = segue.destination as? QuestionViewController else { return }
         viewController.delegate = self
-        viewController.questionStrategy = appSettings.questionStrategy(for: selectedQuestionGroup)
+        viewController.questionStrategy = appSettings.questionStrategy(for: questionGroupCaretaker)
         //viewController.questionStrategy = RandomQuestionStrategy(questionGroup: selectedQuestionGroup)
         //QuestionViewController questionStrategy can be interchangeable b/w RandomQuestionStrategy and SequentialQuestionStrategy
         //viewController.questionStrategy = SequentialQuestionStrategy(questionGroup: selectedQuestionGroup)
